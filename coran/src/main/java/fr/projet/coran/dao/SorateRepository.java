@@ -14,7 +14,7 @@ import fr.projet.coran.entities.Sorate;
 @Repository
 public interface SorateRepository extends JpaRepository<Sorate, Integer > {
 	@Query("select so from Sorate so where so.nom like:x")
-	public Page<Sorate> sorateParMc(@Param("x")String mc, Pageable p);
+	public Page<Sorate> chercherSorate(@Param("x")String mc, Pageable p);
 	
 	public List<Sorate> findByNom(String nom);
 	public Page<Sorate> findByNom(String nom,Pageable p);

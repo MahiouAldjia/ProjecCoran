@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.projet.coran.dao.SorateRepository;
@@ -37,60 +38,32 @@ public class CoranController {
 	 */
 	@RequestMapping("/Index")
 	public String Index(Model model,
-			@RequestParam(name="page", defaultValue="0")int p) {
-		Page<Sorate> pageSorates= sorateRepository.findAll(
-				new PageRequest(p, 5)); {
+			@RequestParam(name="page", defaultValue="0")int p,
+			@RequestParam(name="motCle", defaultValue=" ")String mc) {
+		
+		Page<Sorate> pageSorates= sorateRepository
+				.chercherSorate("%"+mc+"%", new PageRequest(p, 5)); 
 		/**
 		 * 2- conaitre les pages et afficher lespages
 		 */
 		int pageCount= pageSorates.getTotalPages();
 		int[] pages =new int[pageCount];
-		for(int i=0;i<pageCount; i++) {
-			pages[i]=i;
-		}
+		for(int i=0;i<pageCount; i++)pages[i]=i;
+		
 		/**
 		 * sauvegarder dans le model
 		 */
 		model.addAttribute("pages", pages);
 		model.addAttribute("pageSorates", pageSorates);
+		model.addAttribute("pageCourante", p);
+		model.addAttribute("motCle", mc);
 		return "sorates";
-	}
-	}
-	/**@RequestMapping("/save")
-	public Sorate saveSorate(Sorate s) {
-		sorateRepository.save(s);
-		return s;
-	}
-	@RequestMapping("/all")
-	public List<Sorate> getSorate() {
-		return sorateRepository.findAll();
-	}
-	@RequestMapping("/sorates")
-	public Page<Sorate> getSorates(int page) {
-		return sorateRepository.findAll(new PageRequest(page, 7));
-	}
+	}				
 	
-	@RequestMapping("/sorateParMC")
-	public Page<Sorate> getSorates(String mc,int page) {
-		return sorateRepository.sorateParMc("%"+mc+"%", new PageRequest(page, 5));
+	@RequestMapping(value="/form", method=RequestMethod.GET)
+	public String formSorate() {
+		return "FormSorate";
 	}
-	
-	@RequestMapping("/get")
-	public Sorate getSorate(int idSorate) {
-		return sorateRepository.findOne(idSorate);
-	}
-	
-	@RequestMapping("/delete")
-	public boolean delete(int idSorate) {
-		sorateRepository.delete(idSorate);
-		return true;
-	}
-	
-	@RequestMapping("/update")
-	public Sorate update(Sorate s) {
-		sorateRepository.saveAndFlush(s);
-		return s;
-	}**/
 	
 
 }
