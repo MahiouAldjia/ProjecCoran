@@ -5,6 +5,8 @@ package fr.projet.coran.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name="verset_variante_langue")
 public class Relation implements Serializable {
+	private int id;
 	private Verset verset;
 	private Variante variante;
 	private Languee languee;
@@ -24,9 +27,17 @@ public class Relation implements Serializable {
 	
 	
 
-	@Id
 	
-    @ManyToOne
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@ManyToOne
     @JoinColumn(name = "id_verset")
 	public Verset getVerset() {
 		return verset;
@@ -36,7 +47,7 @@ public class Relation implements Serializable {
 		this.verset = verset;
 	}
 
-	@Id
+	
 	
     @ManyToOne
     @JoinColumn(name = "id_variante")
@@ -48,7 +59,7 @@ public class Relation implements Serializable {
 		this.variante = variante;
 	}
 
-	@Id
+	
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_languee")

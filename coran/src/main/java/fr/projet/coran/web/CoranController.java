@@ -2,6 +2,8 @@ package fr.projet.coran.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,12 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.projet.coran.dao.SorateRepository;
 import fr.projet.coran.entities.Sorate;
+
 
 @Controller
 @RequestMapping(value="/Coran")
@@ -61,8 +66,39 @@ public class CoranController {
 	}				
 	
 	@RequestMapping(value="/form", method=RequestMethod.GET)
-	public String formSorate() {
+	public String formSorate(Model model) {
+		model.addAttribute("sorate", new Sorate());		
 		return "FormSorate";
+	}
+	@RequestMapping(value="/SaveSorate", method=RequestMethod.POST)
+	public String save(@Valid Sorate st, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()){
+			return "FormSorate";
+		}
+		sorateRepository.save(st);
+		
+		return "redirect:Index";
+	}
+	@RequestMapping(value="/supprimer")
+	public String supprimer(int idSorate) {
+		sorateRepository.delete(idSorate);
+		return "redirect:Index";
+	}
+	
+	@RequestMapping(value="/edit")
+	public String edit(int idSorate, Model model) {
+		Sorate st = sorateRepository.findOne(idSorate);
+		model.addAttribute("sorate", st);
+		return "EditSorate";
+	}
+	@RequestMapping(value="/UpdateSorate", method=RequestMethod.POST)
+	public String update(@Valid Sorate st, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()){
+			return "EditSorate";
+		}
+		sorateRepository.save(st);
+		
+		return "redirect:Index";
 	}
 	
 

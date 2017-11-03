@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class Languee implements Serializable{
 		this.nom = nom;
 	}
 
-	@OneToMany(mappedBy="languee") 
+	@OneToMany(mappedBy="languee", cascade = CascadeType.ALL) 
 	public Set<Relation> getRelations() {
 		return relations;
 	}

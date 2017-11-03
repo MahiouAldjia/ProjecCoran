@@ -28,7 +28,7 @@ import fr.projet.coran.entities.Verset;
 @SpringBootApplication
 public class CoranApplication implements CommandLineRunner {
 	
-	/**@Autowired
+	@Autowired
 	private SorateRepository sorateRepository;
 	@Autowired
 	private VersetRepository versetRepository;
@@ -36,7 +36,7 @@ public class CoranApplication implements CommandLineRunner {
 	private LangueeRepository langueeRepository;
 	
 	@Autowired
-	private VarianteRepository varianteRepository;**/
+	private VarianteRepository varianteRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CoranApplication.class, args);
@@ -51,9 +51,9 @@ public class CoranApplication implements CommandLineRunner {
 		Verset v1= versetRepository.save(new Verset(1, s1));
 		Languee l1= langueeRepository.save(new Languee("ara", "arabe"));
 		Variante vt1 =varianteRepository.save(new Variante("hafs"));
-		Relation relation =new Relation(v1, vt1, l1, "ayat2");
+		Relation relation =new Relation(v1, vt1, l1, "bismi allah");
 		v1.getRelations().add(relation);**/
-		
+	    //sorateRepository.delete(1);		
 		
 	}
 

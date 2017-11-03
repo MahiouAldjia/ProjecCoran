@@ -3,6 +3,7 @@ package fr.projet.coran.entities;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,9 +18,12 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 public class Sorate implements Serializable{
+	
 	private int idSorate;
+	@NotEmpty(message="Remplir le champs")
+	@Size(min=5, max=30, message="la taille de  compris entre<5,30>")
 	private String nom;
-	//private Collection<Verset> versets;
+	private Collection<Verset> versets;
 	
 	
 	public Sorate() {
@@ -34,7 +38,7 @@ public class Sorate implements Serializable{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
 	//@Size(min = 1, max = 9)
 	 @Column(name="id_sorate")
-	//@NotEmpty
+	
 	public int getIdSorate() {
 		return idSorate;
 	}
@@ -52,7 +56,7 @@ public class Sorate implements Serializable{
 		this.nom = nom;
 	}
 
-	/**@OneToMany(mappedBy="sorate",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="sorate",fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	//@NotEmpty
 	public Collection<Verset> getVersets() {
 		return versets;
@@ -60,7 +64,7 @@ public class Sorate implements Serializable{
 
 	public void setVersets(Collection<Verset> versets) {
 		this.versets = versets;
-	}**/
+	}
 	
 
 	

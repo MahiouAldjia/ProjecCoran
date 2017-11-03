@@ -17,8 +17,13 @@ layout:decorator="template">
 	<div class="panel panel-default ">
 		<div class="panel-heading">Saisie d'une sorate</div>
 		<div class="panel-body">
-			<form th:action="@{SaveSorate}" 
+			<form th:action="@{UpdateSorate}" 
 			method="post" th:object="${sorate}" >
+				<div class="form-group">
+					<label class="control-label">Id</label>
+					<input type="text" th:field="*{idSorate}" class="form-control" />
+					<span class= "text-danger" th:errors="*{idSorate}"></span>
+				</div>
 				<div class="form-group">
 					<label class="control-label">Nom</label>
 					<input type="text" th:field="*{nom}" class="form-control" />
